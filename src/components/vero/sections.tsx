@@ -339,7 +339,11 @@ export function useHeroPassed() {
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
-      ([entry]) => setPassed(!entry.isIntersecting && entry.boundingClientRect.top < 0),
+      (entries) => {
+        const entry = entries[0];
+        if (!entry) return;
+        setPassed(!entry.isIntersecting && entry.boundingClientRect.top < 0);
+      },
       { threshold: 0 },
     );
     obs.observe(el);
