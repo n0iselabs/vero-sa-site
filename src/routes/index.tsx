@@ -1,24 +1,53 @@
 import { createFileRoute } from "@tanstack/react-router";
+import {
+  CareSection,
+  FaqSection,
+  FinalCta,
+  Footer,
+  Header,
+  Hero,
+  HowItWorks,
+  LocationSection,
+  StickyBar,
+  TrustBlock,
+  useHeroPassed,
+} from "@/components/vero/sections";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+const title = "Vero Odontologia — Dentista em Santo André, SP";
+const description =
+  "Dentista em Santo André: a Vero Odontologia tem nota 4,9 com 162 avaliações no Google. Chame no WhatsApp e agende sua avaliação.";
+
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title },
+      { name: "description", content: description },
+      { property: "og:title", content: title },
+      { property: "og:description", content: description },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
+  const { ref, passed } = useHeroPassed();
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="min-h-screen bg-cream">
+      <Header />
+      <main>
+        <Hero sentinelRef={ref} />
+        <TrustBlock />
+        <CareSection />
+        <HowItWorks />
+        <LocationSection />
+        <FaqSection />
+        <FinalCta />
+      </main>
+      <Footer />
+      <StickyBar visible={passed} />
     </div>
   );
 }
